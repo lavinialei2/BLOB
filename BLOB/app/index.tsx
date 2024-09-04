@@ -1,7 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 export default function Index() {
+  // .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
+  // .then(() => {
+  //   console.log('User account created & signed in!');
+  // })
+  // .catch(error => {
+  //   if (error.code === 'auth/email-already-in-use') {
+  //     console.log('That email address is already in use!');
+  //   }
+
+  //   if (error.code === 'auth/invalid-email') {
+  //     console.log('That email address is invalid!');
+  //   }
+
+  //   console.error(error);
+  // });
+
+
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user: React.SetStateAction<undefined>) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
+  if (!user) {
+    return (
+      <View>
+        <Text>Login</Text>
+      </View>
+    );
+  }
+
   return (
     <ImageBackground
       //source={require('./assets/landingpage.png')} // Ensure the path is correct for your project
@@ -20,7 +63,8 @@ export default function Index() {
             <Text style={styles.letter}>.</Text>
           </View>
         </View>
-        <View style={styles.sloganContainer}>
+        {/* <View style={styles.sloganContainer}> */}
+        <View>
           <Text style={styles.slogan}>building lifelong open behaviors</Text>
         </View>
         <View style={styles.containerAlign}>
@@ -107,38 +151,38 @@ const styles = StyleSheet.create({
   letter: {
     fontSize: 100,
     fontFamily: 'DynaPuff', // Ensure you load the font correctly in your project
-    display: 'inline-block',
+    // display: 'inline-block',
     padding: 0,
     opacity: 0,
-    animation: 'fadeIn 0.4s forwards',
+    // animation: 'fadeIn 0.4s forwards',
     lineHeight: 1,
     verticalAlign: 'middle',
     textAlign: 'center',
   },
   '@keyframes fadeIn': {
-    from: { opacity: 0 },
-    to: { opacity: 1 },
+    // from: { opacity: 0 },
+    // to: { opacity: 1 },
   },
   '@keyframes moveUp': {
-    from: { transform: [{ translateY: 0 }], opacity: 1 },
-    to: { transform: [{ translateY: -35 }], opacity: 1 },
+    // from: { transform: [{ translateY: 0 }], opacity: 1 },
+    // to: { transform: [{ translateY: -35 }], opacity: 1 },
   },
   letterChild: {
-    animation: 'moveUp 1s forwards',
-    1: { animationDelay: '0.1s' },
-    2: { animationDelay: '0.2s' },
-    3: { animationDelay: '0.3s' },
-    4: { animationDelay: '0.4s' },
-    5: { animationDelay: '0.5s' },
-    6: { animationDelay: '0.6s' },
-    7: { animationDelay: '0.7s' },
-    8: { animationDelay: '0.8s' },
+    // animation: 'moveUp 1s forwards',
+    // 1: { animationDelay: '0.1s' },
+    // 2: { animationDelay: '0.2s' },
+    // 3: { animationDelay: '0.3s' },
+    // 4: { animationDelay: '0.4s' },
+    // 5: { animationDelay: '0.5s' },
+    // 6: { animationDelay: '0.6s' },
+    // 7: { animationDelay: '0.7s' },
+    // 8: { animationDelay: '0.8s' },
   },
   sloganContainer: {
     textAlign: 'center',
   },
   slogan: {
-    display: 'inline-block',
+    // display: 'inline-block',
     fontFamily: 'DynaPuff', // Ensure you load the font correctly in your project
     fontSize: 32,
     paddingTop: 0,
